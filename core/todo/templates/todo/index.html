@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<!-- <head>
+    <meta charset="UTF-8">
+
+</head> -->
+<body>
+    {% for task in tasks %}
+    {{task.title}} | {{task.status}} | {{task.time_created}}
+    {% endfor %}
+</body>
