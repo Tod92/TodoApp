@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.db.models import Q
 from .models import Task
@@ -12,8 +12,26 @@ def index(request):
     context = {
         "tasks": tasks
     }
-    # result = [str(t) for t in tasks]
     return render(request,
                   'todo/index.html',
-                  context=context
-                  )
+                  context=context)
+
+def add_task(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        print(title)
+        if title:
+            task = Task.objects.create(title=title)
+            return render(request, 'todo/task_item.html', {'task': task})
+    return HttpResponse(status=400)
+
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    task.delete()
+    return HttpResponse('')
+
+def toggle_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    task.completed = not task.completed
+    task.save()
+    return render(request, 'todo/task_item.html', {'task': task})
