@@ -17,7 +17,7 @@ class Task(models.Model):
     status : str = models.CharField(max_length=9,
                                     choices=STATUS_CHOICES,
                                     default=TODO)
-    time_created = models.DateField(auto_now_add=True)
+    time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
